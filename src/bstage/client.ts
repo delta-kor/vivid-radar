@@ -19,7 +19,7 @@ const BstageConfigSchema = z.object({
 });
 
 export default class BstageClient implements ClientBase {
-  private readonly config: BstageConfig;
+  private readonly config: z.infer<typeof BstageConfigSchema>;
 
   constructor(config: BstageConfig) {
     this.config = BstageConfigSchema.parse(config);
@@ -33,7 +33,24 @@ export default class BstageClient implements ClientBase {
     return `https://media.static.bstage.in/${this.config.id}${path}`;
   }
 
-  private parseResponse(data: BstageResponse): VividFeed[] {
+  private async fetchData(): Promise<BstageResponse> {
+    const url = `https://${this.config.host}/svc/home/api/v1/home/star`;
+
+    const request = new Request<BstageResponse>({
+      url,
+      method: 'GET',
+      query: {
+        page: this.config.page,
+        pageSize: this.config.pageSize,
+      },
+      responseType: 'json',
+    });
+
+    const response = await request.send();
+    return response.data;
+  }
+
+  private parseData(data: BstageResponse): VividFeed[] {
     if (!data.feeds) throw new Error('Failed to parse bstage feeds');
 
     const result: VividFeed[] = [];
@@ -72,21 +89,7 @@ export default class BstageClient implements ClientBase {
   }
 
   public async scrap(): Promise<VividFeed[]> {
-    const url = `https://${this.config.host}/svc/home/api/v1/home/star`;
-
-    const request = new Request<BstageResponse>({
-      url,
-      method: 'GET',
-      query: {
-        page: this.config.page,
-        pageSize: this.config.pageSize,
-      },
-      responseType: 'json',
-    });
-
-    const response = await request.send();
-    const data = response.data;
-
-    return this.parseResponse(data);
+    const data = await this.fetchData();
+    return this.parseData(data);
   }
 }

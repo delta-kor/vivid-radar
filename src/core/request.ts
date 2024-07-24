@@ -49,16 +49,16 @@ export default class Request<T> {
 
     const response = await fetch(url, requestInit);
 
-    if (this.config.responseType === 'json') {
-      const data: T = await response.json();
-      return {
-        data,
-        headers: Object.fromEntries(response.headers),
-      };
-    } else {
+    if (this.config.responseType === 'text') {
       const data = await response.text();
       return {
         data: data as T,
+        headers: Object.fromEntries(response.headers),
+      };
+    } else {
+      const data = await response.json();
+      return {
+        data: data,
         headers: Object.fromEntries(response.headers),
       };
     }

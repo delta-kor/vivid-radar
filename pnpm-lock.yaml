@@ -28,6 +28,9 @@ devDependencies:
   '@types/node':
     specifier: ^20.14.12
     version: 20.14.12
+  dotenv:
+    specifier: ^16.4.5
+    version: 16.4.5
   jest:
     specifier: ^29.7.0
     version: 29.7.0(@types/node@20.14.12)
@@ -1106,6 +1109,11 @@ packages:
   /diff-sequences@29.6.3:
     resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dev: true
+
+  /dotenv@16.4.5:
+    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
+    engines: {node: '>=12'}
     dev: true
 
   /ejs@3.1.10:
