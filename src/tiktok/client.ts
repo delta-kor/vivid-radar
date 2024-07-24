@@ -18,7 +18,7 @@ export interface TiktokTokenConfig {
 export interface TiktokConfig {
   id: string;
   tokenConfig: TiktokTokenConfig;
-  maxCount: number;
+  maxCount?: number;
   userAgent?: string;
   browserVersion?: string;
   deviceId?: string;
@@ -33,7 +33,7 @@ const TiktokConfigSchema = z.object({
     dataType: z.number(),
     strData: z.string().min(1),
   }),
-  maxCount: z.number().int().positive(),
+  maxCount: z.number().int().positive().default(20),
   userAgent: z.string().min(1).default(TiktokUserAgent),
   browserVersion: z.string().min(1).default(TiktokBrowserVersion),
   deviceId: z.string().min(1).default(TiktokDeviceId),

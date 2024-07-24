@@ -38,6 +38,37 @@ const feeds = await twitter.scrap();
 
 ---
 
+### TikTok
+
+**Config**  
+| key | description |  
+|--|--|  
+| ```id``` | Target user id |  
+| ```tokenConfig``` | TikTok msToken config |  
+| ```maxCount``` | Approximate feed count (optional) |  
+| ```userAgent``` | User agent (optional) |  
+| ```browserVersion``` | TikTok client browser version (optional) |  
+| ```deviceId``` | TikTok client device id (optional) |
+
+**Example**
+```javascript  
+import { TiktokClient } from 'vivid-radar';
+const tokenConfig = {
+  url: process.env.TIKTOK_TOKEN_URL as string, // e.g. https://mssdk-sg.tiktok.com/...
+  magic: parseInt(process.env.TIKTOK_TOKEN_MAGIC as string), // e.g. 512965148
+  version: 1,
+  dataType: 8,
+  strData: process.env.TIKTOK_TOKEN_STR_DATA as string, // e.g. fWOdJTER3/jwmZqSBs...
+};
+const tiktok = new TiktokClient({
+  id: 'csr.offcl',
+  tokenConfig,
+});
+const feeds = await tiktok.scrap();
+```  
+
+---
+
 ### Daum Cafe
 
 **Config**

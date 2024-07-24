@@ -19,7 +19,7 @@ test('scrap twitter feeds', async () => {
   const feeds = await tiktok.scrap();
 
   expect(feeds).toBeDefined();
-  expect(feeds.length).toBeGreaterThan(0);
+  expect(feeds.length).toBeGreaterThanOrEqual(50);
   for (const feed of feeds) {
     expect(feed.id).toBeDefined();
     expect(feed.title).toBeDefined();
