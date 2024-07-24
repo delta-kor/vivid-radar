@@ -119,7 +119,19 @@ export interface TwitterResponseMedia {
   sizes: any;
   original_info: any;
   allow_download_status?: any;
-  video_info?: any;
+  video_info?: TwitterVideoInfo;
   media_results: any;
   features?: any;
+}
+
+export interface TwitterVideoInfo {
+  aspect_ratio: number[];
+  duration_millis: number;
+  variants: TwitterVideoVariants[];
+}
+
+export interface TwitterVideoVariants {
+  content_type: string;
+  bitrate: number;
+  url: string;
 }

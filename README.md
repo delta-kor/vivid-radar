@@ -6,7 +6,7 @@
 This project is designed to retrieve short-term data, with the maximum number of items varying across different platforms.
 | Platform | Max Items | Contents | Image | Video | Thumbnail
 |--|--|--|--|--|--|
-| Twitter(X) | 50 | ✅ | ✅ | ❌ | ✅ |
+| Twitter(X) | 50 | ✅ | ✅ | ✅ | ✅ |
 | TikTok | Infinity | ✅ | - | ❌ | ✅ |
 | Daum Cafe | 20 | ✅ | ✅ | ❌ | ❌ |
 | Bstage | Infinity | ✅ | ✅ | ✅ | ✅ |

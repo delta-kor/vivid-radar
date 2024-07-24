@@ -129,11 +129,17 @@ export default class TwitterClient implements ClientBase {
       const members: string[] = [];
 
       const media: VividMedia[] =
-        tweet.extended_entities?.media.map((media: any) => {
+        tweet.extended_entities?.media.map(media => {
           if (media.type === 'photo') {
             return { type: 'image', url: media.media_url_https };
+          } else if (media.type === 'video') {
+            const url = media.video_info?.variants
+              .filter(v => v.content_type === 'video/mp4')
+              .sort((a, b) => b.bitrate - a.bitrate)[0].url;
+            if (!url) throw new Error('Failed to get video url');
+            return { type: 'video', thumbnail: media.media_url_https, url };
           } else {
-            return { type: 'video', thumbnail: media.media_url_https, url: null };
+            throw new Error('Unknown media type');
           }
         }) || [];
 

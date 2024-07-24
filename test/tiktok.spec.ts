@@ -10,7 +10,7 @@ const tokenConfig = {
   strData: process.env.TIKTOK_TOKEN_STR_DATA as string,
 };
 
-test('scrap twitter feeds', async () => {
+test('scrap tiktok feeds', async () => {
   const tiktok = new TiktokClient({
     id: 'csr.offcl',
     tokenConfig,
