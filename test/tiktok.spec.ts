@@ -16,4 +16,18 @@ test('scrap twitter feeds', async () => {
     tokenConfig,
   });
   const feeds = await tiktok.scrap();
+
+  expect(feeds).toBeDefined();
+  expect(feeds.length).toBeGreaterThan(0);
+  for (const feed of feeds) {
+    expect(feed.id).toBeDefined();
+    expect(feed.title).toBeDefined();
+    expect(feed.date).toBeDefined();
+    expect(feed.media).toBeDefined();
+    expect(feed.media.length).toBe(1);
+    for (const media of feed.media) {
+      expect(media.type).toBeDefined();
+      expect(media.url).toBeDefined();
+    }
+  }
 });

@@ -2,8 +2,9 @@ import qs from 'qs';
 import { z } from 'zod';
 import ClientBase from '../client-base';
 import Request from '../core/request';
-import { VividFeed } from '../vivid';
+import { VividFeed, VividMedia } from '../vivid';
 import { TiktokBrowserVersion, TiktokDeviceId, TiktokUserAgent } from './defaults';
+import { TiktokResponse } from './response';
 import Xbogus from './xbogus';
 
 export interface TiktokTokenConfig {
@@ -152,19 +153,19 @@ export default class TiktokClient implements ClientBase {
     return {
       ...baseRequestModel,
       coverFormat: 2,
-      count: 1,
+      count: 35,
       cursor: 0,
       secUid,
     };
   }
 
-  private async fetchData(requestModel: any): Promise<any> {
+  private async fetchData(requestModel: any): Promise<TiktokResponse> {
     const url = 'https://www.tiktok.com/api/post/item_list/';
 
     const params = qs.stringify(requestModel, { encode: false });
     const xb = new Xbogus(this.config.userAgent).getXBogus(params);
 
-    const request = new Request({
+    const request = new Request<TiktokResponse>({
       url,
       method: 'GET',
       query: {
@@ -182,15 +183,37 @@ export default class TiktokClient implements ClientBase {
     const response = await request.send();
     const data = response.data;
 
-    console.log(response.data);
+    return data;
+  }
+
+  private parseData(data: TiktokResponse): VividFeed[] {
+    const feeds: VividFeed[] = [];
+
+    for (const item of data.itemList) {
+      const id = item.id;
+      const account = this.config.id;
+      const title = item.desc;
+      const members: string[] = [];
+      const date = new Date(item.createTime * 1000);
+      const media: [VividMedia] = [
+        {
+          type: 'video',
+          thumbnail: item.video.zoomCover['960'],
+          url: null,
+        },
+      ];
+
+      feeds.push({ type: 'tiktok', id, account, title, members, date, media });
+    }
+
+    return feeds;
   }
 
   public async scrap(): Promise<VividFeed[]> {
     const secUid = await this.getSecUid();
     const msToken = await this.createMsToken();
     const requestModel = this.createUserPostRequestModel(secUid, msToken);
-    await this.fetchData(requestModel);
-
-    return [];
+    const data = await this.fetchData(requestModel);
+    return this.parseData(data);
   }
 }

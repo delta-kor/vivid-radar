@@ -31,7 +31,6 @@ export default class Request<T> {
       ? qs.stringify(this.config.query, { encode: !this.config.raw })
       : '';
     const url = query ? `${endpoint}?${query}` : endpoint;
-    console.log(url);
 
     const requestInit: RequestInit = {
       method: this.config.method,
