@@ -14,6 +14,7 @@ export interface RequestConfig {
   payload?: any;
   requestType?: RequestPayloadType;
   responseType?: ResponseType;
+  encoder?: (data: any) => any;
 }
 
 export interface Response<T> {
@@ -26,8 +27,11 @@ export default class Request<T> {
 
   public async send(): Promise<Response<T>> {
     const endpoint = this.config.url;
-    const query = this.config.query ? qs.stringify(this.config.query) : '';
+    const query = this.config.query
+      ? qs.stringify(this.config.query, { encoder: this.config.encoder })
+      : '';
     const url = query ? `${endpoint}?${query}` : endpoint;
+    console.log(url);
 
     const requestInit: RequestInit = {
       method: this.config.method,
