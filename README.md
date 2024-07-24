@@ -86,7 +86,7 @@ const feeds = await bstage.scrap();
 ```javascript
 [
   {
-	type: 'twitter',
+    type: 'twitter',
     id: '1814944229346484598',
     account: 'CSR_offcl',
     title: '너 좀 나 닮았다?\n\n#첫사랑 #CSR #금희 #GEUMHEE',
@@ -104,7 +104,7 @@ const feeds = await bstage.scrap();
     ],
   },
   {
-	type: 'bstage',
+    type: 'bstage',
     id: '880074',
     account: 'csr.bstage.in',
     title: 'ねこしひょん😽',
