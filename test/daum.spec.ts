@@ -1,8 +1,8 @@
 import DaumClient from '../src/daum/client';
 
 test('scrap daum feeds', async () => {
-  const bstage = new DaumClient({ cafeId: 'csr.official', boardId: 'ZDmo', grpId: '1ZKSg' });
-  const feeds = await bstage.scrap();
+  const daum = new DaumClient({ cafeId: 'csr.official', boardId: 'ZDmo', grpId: '1ZKSg' });
+  const feeds = await daum.scrap();
 
   expect(feeds).toBeDefined();
   expect(feeds.length).toBeGreaterThan(0);

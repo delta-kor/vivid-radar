@@ -23,10 +23,6 @@ export default class DaumClient implements ClientBase {
     this.config = DaumConfigSchema.parse(config);
   }
 
-  private getImageProxyUrl(url: string): string {
-    return `https://wsrv.nl/?url=${encodeURIComponent(url)}&fit=inside&w=1024&h=1024&we`;
-  }
-
   private async fetchList(): Promise<string[]> {
     const url = `https://cafe.daum.net/_c21_/bbs_list?grpid=${this.config.grpId}&fldid=${this.config.boardId}&svc=toprank`;
 
@@ -106,7 +102,7 @@ export default class DaumClient implements ClientBase {
       const src = image.src;
       media.push({
         type: 'image',
-        url: this.getImageProxyUrl(src),
+        url: src,
       });
     }
 
