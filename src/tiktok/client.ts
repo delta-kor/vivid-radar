@@ -18,6 +18,7 @@ export interface TiktokTokenConfig {
 export interface TiktokConfig {
   id: string;
   tokenConfig: TiktokTokenConfig;
+  maxCount: number;
   userAgent?: string;
   browserVersion?: string;
   deviceId?: string;
@@ -32,6 +33,7 @@ const TiktokConfigSchema = z.object({
     dataType: z.number(),
     strData: z.string().min(1),
   }),
+  maxCount: z.number().int().positive(),
   userAgent: z.string().min(1).default(TiktokUserAgent),
   browserVersion: z.string().min(1).default(TiktokBrowserVersion),
   deviceId: z.string().min(1).default(TiktokDeviceId),
@@ -147,14 +149,14 @@ export default class TiktokClient implements ClientBase {
     };
   }
 
-  private createUserPostRequestModel(secUid: string, msToken: string): any {
+  private createUserPostRequestModel(secUid: string, msToken: string, cursor: number = 0): any {
     const baseRequestModel = this.createBaseRequestModel(msToken);
 
     return {
       ...baseRequestModel,
       coverFormat: 2,
       count: 35,
-      cursor: 0,
+      cursor,
       secUid,
     };
   }
@@ -211,9 +213,23 @@ export default class TiktokClient implements ClientBase {
 
   public async scrap(): Promise<VividFeed[]> {
     const secUid = await this.getSecUid();
-    const msToken = await this.createMsToken();
-    const requestModel = this.createUserPostRequestModel(secUid, msToken);
-    const data = await this.fetchData(requestModel);
-    return this.parseData(data);
+    const result: VividFeed[] = [];
+
+    let cursor: number = 0;
+    while (result.length < this.config.maxCount) {
+      const msToken = await this.createMsToken();
+      const requestModel = this.createUserPostRequestModel(secUid, msToken, cursor);
+      const data = await this.fetchData(requestModel);
+      const feeds = this.parseData(data);
+      result.push(...feeds);
+
+      const hasMore = data.hasMore;
+      if (!hasMore) break;
+
+      const nextCursor = parseInt(data.cursor);
+      cursor = nextCursor;
+    }
+
+    return result;
   }
 }

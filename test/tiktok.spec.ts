@@ -14,6 +14,7 @@ test('scrap twitter feeds', async () => {
   const tiktok = new TiktokClient({
     id: 'csr.offcl',
     tokenConfig,
+    maxCount: 50,
   });
   const feeds = await tiktok.scrap();
 
