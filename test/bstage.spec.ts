@@ -1,6 +1,6 @@
 import BstageClient from '../src/bstage/client';
 
-test('scrap recent feeds', async () => {
+test('scrap bstage feeds', async () => {
   const bstage = new BstageClient({ id: 'csr', host: 'csr.bstage.in', page: 1, pageSize: 5 });
   const feeds = await bstage.scrap();
 

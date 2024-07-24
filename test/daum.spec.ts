@@ -1,13 +1,8 @@
-import 'dotenv/config';
-import TwitterClient from '../src/twitter/client';
+import DaumClient from '../src/daum/client';
 
-test('scrap twitter feeds', async () => {
-  const twitter = new TwitterClient({
-    userId: '1534717807518429186',
-    userName: 'CSR_offcl',
-    authToken: process.env.TWITTER_AUTH_TOKEN as string,
-  });
-  const feeds = await twitter.scrap();
+test('scrap daum feeds', async () => {
+  const bstage = new DaumClient({ cafeId: 'csr.official', boardId: 'ZDmo', grpId: '1ZKSg' });
+  const feeds = await bstage.scrap();
 
   expect(feeds).toBeDefined();
   expect(feeds.length).toBeGreaterThan(0);
