@@ -1,4 +1,4 @@
-import BstageClient from '../src/bstage/client';
+import { BstageClient } from '../src';
 
 test('scrap bstage feeds', async () => {
   const bstage = new BstageClient({ id: 'csr', host: 'csr.bstage.in', page: 1, pageSize: 5 });

@@ -23,7 +23,7 @@ const TwitterConfigSchema = z.object({
   queryId: z.string().min(1).default(TwitterQueryId),
 });
 
-export default class TwitterClient implements ClientBase {
+export class TwitterClient implements ClientBase {
   private readonly config: z.infer<typeof TwitterConfigSchema>;
 
   constructor(config: TwitterConfig) {

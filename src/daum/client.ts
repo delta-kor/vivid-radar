@@ -16,7 +16,7 @@ const DaumConfigSchema = z.object({
   grpId: z.string().min(1),
 });
 
-export default class DaumClient implements ClientBase {
+export class DaumClient implements ClientBase {
   private readonly config: z.infer<typeof DaumConfigSchema>;
 
   constructor(config: DaumConfig) {

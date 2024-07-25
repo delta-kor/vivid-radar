@@ -11,6 +11,7 @@
     "noImplicitAny": true,
     "pretty": false,
     "sourceMap": false,
+    "declaration": true,
     "experimentalDecorators": true,
     "incremental": false
   },

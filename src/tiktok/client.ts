@@ -39,7 +39,7 @@ const TiktokConfigSchema = z.object({
   deviceId: z.string().min(1).default(TiktokDeviceId),
 });
 
-export default class TiktokClient implements ClientBase {
+export class TiktokClient implements ClientBase {
   private readonly config: z.infer<typeof TiktokConfigSchema>;
 
   constructor(config: TiktokConfig) {

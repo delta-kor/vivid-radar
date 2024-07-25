@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import TwitterClient from '../src/twitter/client';
+import { TwitterClient } from '../src';
 
 test('scrap twitter feeds', async () => {
   const twitter = new TwitterClient({

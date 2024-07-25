@@ -18,7 +18,7 @@ const BstageConfigSchema = z.object({
   pageSize: z.number().int().positive().default(20),
 });
 
-export default class BstageClient implements ClientBase {
+export class BstageClient implements ClientBase {
   private readonly config: z.infer<typeof BstageConfigSchema>;
 
   constructor(config: BstageConfig) {

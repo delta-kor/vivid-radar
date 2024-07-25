@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import * as process from 'node:process';
-import TiktokClient from '../src/tiktok/client';
+import { TiktokClient } from '../src';
 
 const tokenConfig = {
   url: process.env.TIKTOK_TOKEN_URL as string,

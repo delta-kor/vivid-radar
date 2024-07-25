@@ -1,4 +1,4 @@
-import DaumClient from '../src/daum/client';
+import { DaumClient } from '../src';
 
 test('scrap daum feeds', async () => {
   const daum = new DaumClient({ cafeId: 'csr.official', boardId: 'ZDmo', grpId: '1ZKSg' });
