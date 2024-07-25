@@ -57,7 +57,7 @@ export class BstageClient implements ClientBase {
     for (const feed of data.feeds.items) {
       if (feed.type !== 'FEED_ITEM_STAR_POST') continue;
 
-      const id = feed.id;
+      const id = feed.typeId;
       const account = this.config.host;
       const title = feed.title;
       const members: string[] = [];
