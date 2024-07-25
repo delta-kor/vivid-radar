@@ -106,13 +106,28 @@ export class DaumClient implements ClientBase {
       });
     }
 
+    const dateElement = document.querySelector('.cover_info > .txt_item:nth-child(4)');
+    if (!dateElement) throw new Error('Failed to find daum article date');
+
+    const dateString = dateElement.textContent;
+    if (!dateString || dateString.length !== 14)
+      throw new Error('Failed to parse daum article date');
+
+    const year = parseInt(dateString.slice(0, 2)) + 2000;
+    const month = parseInt(dateString.slice(3, 5)) - 1;
+    const day = parseInt(dateString.slice(6, 8));
+    const hour = parseInt(dateString.slice(9, 11));
+    const minute = parseInt(dateString.slice(12, 14));
+
+    const date = new Date(year, month, day, hour, minute);
+
     return {
       type: 'daum',
       id: `${this.config.boardId}/${articleId}`,
       account: this.config.cafeId,
       title: title,
       members: [],
-      date: new Date(),
+      date,
       media,
     };
   }
