@@ -1,4 +1,4 @@
-import { JSDOM } from 'jsdom';
+import { load } from 'cheerio';
 import { z } from 'zod';
 import ClientBase from '../client-base';
 import Request from '../core/request';
@@ -69,23 +69,23 @@ export class DaumClient implements ClientBase {
   }
 
   private parseArticle(html: string, articleId: string): VividFeed {
-    const dom = new JSDOM(html);
-    const document = dom.window.document;
-    const area = document.getElementById('template_xmp');
+    const $ = load(html);
+
+    const area = $('#template_xmp');
     if (!area) throw new Error('Failed to find daum article content');
 
-    const article = new JSDOM(area.innerHTML).window.document;
+    const article = load(area.html()!);
 
     let contents: string[] = [];
 
-    const articleTitle = document.querySelector('strong.tit_info')?.textContent;
+    const articleTitle = $('strong.tit_info').text();
     if (!articleTitle) throw new Error('Failed to find daum article title');
 
     contents.push(articleTitle.trim() + '\n');
 
-    const paragraphs = article.querySelectorAll('p, .figcaption');
-    for (const paragraph of paragraphs.values()) {
-      const item = paragraph.innerHTML
+    const paragraphs = article('p, .figcaption').toArray();
+    for (const paragraph of paragraphs) {
+      const item = $.html(paragraph)
         .replace(/<br>/g, '\n')
         .replace(/(<([^>]+)>)/gi, '')
         .trim();
@@ -97,19 +97,19 @@ export class DaumClient implements ClientBase {
     const title = contents.join('\n');
     const media: VividMedia[] = [];
 
-    const images = article.querySelectorAll('img.txc-image') as NodeListOf<HTMLImageElement>;
+    const images = article('img.txc-image').toArray();
     for (const image of images) {
-      const src = image.src;
+      const src = image.attribs['src'];
       media.push({
         type: 'image',
         url: src,
       });
     }
 
-    const dateElement = document.querySelector('.cover_info > .txt_item:nth-child(4)');
+    const dateElement = $('.cover_info > .txt_item:nth-child(4)');
     if (!dateElement) throw new Error('Failed to find daum article date');
 
-    const dateString = dateElement.textContent;
+    const dateString = dateElement.text();
     if (!dateString || dateString.length !== 14)
       throw new Error('Failed to parse daum article date');
 
