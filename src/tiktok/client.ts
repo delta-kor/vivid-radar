@@ -215,7 +215,7 @@ export class TiktokClient implements ClientBase {
     const secUid = await this.getSecUid();
     const result: VividFeed[] = [];
 
-    let cursor: number = 1630582796000;
+    let cursor: number = 0;
     while (result.length < this.config.maxCount) {
       const msToken = await this.createMsToken();
       const requestModel = this.createUserPostRequestModel(secUid, msToken, cursor);
