@@ -97,7 +97,7 @@ export class DaumClient implements ClientBase {
     const title = contents.join('\n');
     const media: VividMedia[] = [];
 
-    const images = article('img.txc-image').toArray();
+    const images = article('img.txc-image, img.txc-image-grid').toArray();
     for (const image of images) {
       const src = image.attribs['src'];
       media.push({
