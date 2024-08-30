@@ -191,6 +191,7 @@ export class TiktokClient implements ClientBase {
   private parseData(data: TiktokResponse): VividFeed[] {
     const feeds: VividFeed[] = [];
 
+    if (typeof data.itemList === 'undefined') return feeds;
     for (const item of data.itemList) {
       const id = item.id;
       const account = this.config.id;
